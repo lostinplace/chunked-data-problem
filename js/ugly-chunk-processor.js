@@ -1,21 +1,31 @@
 'use strict';
 var tmpObject = null,
   END_OF_OBJECT_IDENTIFIER = '}',
-  cache = '';
+  cache='',
+  thisModule={
+    processChunk: function(chunk, callback){
+      var potentialEndings = chunk.split(END_OF_OBJECT_IDENTIFIER),
+      isLastItem,
+      objectString;
 
-function processChunk(chunk){
-  var potentialEndings = chunk.split(END_OF_OBJECT_IDENTIFIER),
-  isLastItem = null;
-
-  for (var i = 0; i < potentialEndings.length; i++) {
-    isLastItem = i===potentialEndings.length-1;
-    cache += (potentialEndings[i] + (isLastItem ? '': '}') );
-    try{
-      tmpObject = JSON.parse(cache);
-      console.log(tmpObject);
+      for (var i = 0; i < potentialEndings.length; i++) {
+        isLastItem = i===potentialEndings.length-1;
+        cache += (potentialEndings[i] + (isLastItem ? '': '}') );
+        try {
+          tmpObject = JSON.parse(cache);
+          objectString = JSON.stringify(tmpObject);
+          objectString = objectString.replace(/\n/g,'');
+          thisModule.flush();
+          callback(objectString);
+        } catch(exception) { 
+          //I really dislike this methodology, but no one has a really great way to validate 
+          //JSON without recursive regex, and I didn't feel like writing PCRE
+        }
+      }
+    },
+    flush : function(){
       cache = '';
-    } catch(exception){}
-  }
-}
+    }
+  };
 
-module.exports = processChunk;
+module.exports = thisModule;

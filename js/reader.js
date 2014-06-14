@@ -7,9 +7,12 @@ var http = require('http'),
     port: 8001,
     path: '/',
     method: 'GET'
-  };
+  },
+  chunkResult;
 
 http.get(requestOptions, function(res) {
   res.setEncoding('utf8');
-  res.on('data', chunkProcessor);
+  res.on('data', function(chunk){
+    chunkProcessor.processChunk(chunk, console.log);
+  });
 });
