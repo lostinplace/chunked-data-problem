@@ -11,3 +11,5 @@ gulp test
 ```bash
 node reader.js
 ```
+
+*note that there are no tests for the reader its self because I figured it was a straightforward enough wrapper*
