@@ -5,11 +5,12 @@ var tmpObject = null,
   thisModule={
     processChunk: function(chunk, callback){
       var potentialEndings = chunk.split(END_OF_OBJECT_IDENTIFIER),
+      lastIndex = potentialEndings.length-1,
       isLastItem,
       objectString;
 
       for (var i = 0; i < potentialEndings.length; i++) {
-        isLastItem = i===potentialEndings.length-1;
+        isLastItem = i===lastIndex;
         cache += (potentialEndings[i] + (isLastItem ? '': '}') );
         try {
           tmpObject = JSON.parse(cache);
