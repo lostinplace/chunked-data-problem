@@ -1,3 +1,4 @@
 js/node_modules/
 .idea/
 __pycache__/
+npm-debug.log
