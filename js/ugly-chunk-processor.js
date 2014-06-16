@@ -1,10 +1,10 @@
 'use strict';
-var tmpObject = null,
-  END_OF_OBJECT_IDENTIFIER = '}',
+var END_OF_OBJECT_IDENTIFIER = '}',
   cache='',
   thisModule={
     processChunk: function(chunk, callback){
       var potentialEndings = chunk.split(END_OF_OBJECT_IDENTIFIER),
+      tmpObject,
       lastIndex = potentialEndings.length-1,
       isLastItem,
       objectString;
@@ -19,7 +19,7 @@ var tmpObject = null,
           thisModule.flush();
           callback(objectString);
         } catch(exception) { 
-          //I really dislike this methodology, but no one has a really great way to validate 
+          //I really dislike the try/catch method, but no one has a really great way to validate 
           //JSON without recursive regex, and I didn't feel like writing PCRE
         }
       }
