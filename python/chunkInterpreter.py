@@ -14,7 +14,7 @@ class ChunkInterpreter:
             self._cache += (potential_endings[i] + ('' if is_last_item else '}'))
             try:
                 temp_object = json.loads(self._cache)
-                object_string = json.dumps(temp_object)
+                object_string = json.dumps(temp_object, ensure_ascii=False)
                 object_string = object_string.replace('\n', '')
                 self._cache = ''
                 yield object_string
